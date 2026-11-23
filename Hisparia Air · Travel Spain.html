@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hisparia Air · Travel Spain</title>
+<style>
+:root{--bg:#faf6ef;--surface:#fff;--text:#1d2433;--muted:#5d6678;--accent:#c8402a;--accent2:#12507a;--line:#e6dfd2;--chip:#f0e8da;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12161f;--surface:#1b2130;--text:#eef0f5;--muted:#a3adc2;--accent:#ff7a5c;--accent2:#6bb8ea;--line:#2c3446;--chip:#252d3f;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#12161f;--surface:#1b2130;--text:#eef0f5;--muted:#a3adc2;--accent:#ff7a5c;--accent2:#6bb8ea;--line:#2c3446;--chip:#252d3f;color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Georgia,"Times New Roman",serif;line-height:1.55}
+h1,h2,h3,.sans{font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+.wrap{max-width:900px;margin:0 auto;padding:0 18px}
+header.hero{padding:44px 0 28px;text-align:center}
+.logo{display:inline-block;font:700 13px system-ui,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);border:1.5px solid var(--accent);padding:5px 12px;border-radius:99px}
+h1{font-size:clamp(30px,8vw,48px);line-height:1.1;margin:16px 0 10px}
+.hero p{color:var(--muted);max-width:520px;margin:0 auto;font-size:17px}
+nav{display:flex;gap:8px;overflow-x:auto;padding:6px 18px 14px;justify-content:flex-start;max-width:900px;margin:0 auto}
+nav button{flex:0 0 auto;font:600 14px system-ui,sans-serif;padding:10px 16px;border-radius:99px;border:1.5px solid var(--line);background:var(--surface);color:var(--text);cursor:pointer}
+nav button[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+.banner{border-radius:20px;color:#fff;padding:26px 22px;margin:6px 0 20px;position:relative;overflow:hidden}
+.banner h2{margin:0 0 4px;font-size:26px}
+.banner .meta{opacity:.92;font:15px system-ui,sans-serif}
+.banner .big{position:absolute;right:14px;top:6px;font-size:76px;opacity:.28}
+h3.sec{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:28px 0 12px}
+.dests{display:grid;gap:14px}
+@media(min-width:640px){.dests{grid-template-columns:repeat(2,1fr)}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.ph{height:110px;display:flex;align-items:flex-end;justify-content:space-between;padding:10px 14px;color:#fff;font:700 20px system-ui,sans-serif}
+.ph span{font-size:38px}
+.card .b{padding:14px 16px 16px}
+.card p{margin:0 0 10px;color:var(--muted);font-size:15px}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tags i{font:normal 12px system-ui,sans-serif;background:var(--chip);padding:4px 10px;border-radius:99px}
+.days{list-style:none;margin:0;padding:0;border-left:2px solid var(--line);margin-left:8px}
+.days li{position:relative;padding:0 0 18px 20px}
+.days li:before{content:"";position:absolute;left:-7px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--accent)}
+.days b{font-family:system-ui,sans-serif}
+.days small{display:block;color:var(--muted);font:13px system-ui,sans-serif}
+.price{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px}
+.ctrl{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:14px;font:14px system-ui,sans-serif}
+.ctrl button{font:600 13px system-ui,sans-serif;padding:7px 13px;border-radius:99px;border:1.5px solid var(--line);background:var(--bg);color:var(--text);cursor:pointer}
+.ctrl button.on{background:var(--accent2);border-color:var(--accent2);color:#fff}
+table{width:100%;border-collapse:collapse;font:15px system-ui,sans-serif}
+td{padding:9px 0;border-bottom:1px solid var(--line)}
+td:last-child{text-align:right;white-space:nowrap}
+tr.tot td{border:0;font-weight:700;font-size:20px;padding-top:14px;color:var(--accent)}
+.note{font:13px system-ui,sans-serif;color:var(--muted);margin-top:10px}
+.cta{display:block;text-align:center;margin-top:16px;background:var(--accent);color:#fff;text-decoration:none;font:700 16px system-ui,sans-serif;padding:14px;border-radius:12px}
+footer{text-align:center;color:var(--muted);font:13px system-ui,sans-serif;padding:32px 18px 40px}
+</style>
+</head>
+<body>
+<header class="hero wrap">
+  <span class="logo">Hisparia Air</span>
+  <h1>Discover Spain’s most beautiful small towns</h1>
+  <p>Three routes designed around flying with Hisparia Air, so you can explore every destination at an easy pace.</p>
+</header>
+<nav id="tabs" role="tablist"></nav>
+<main class="wrap" id="main"></main>
+<footer>Approximate prices per person, based on double occupancy. Flights are reference values and may vary by date and availability.<br>© Hisparia Air</footer>
+<script>
+const P=[
+{id:"north",tab:"Northern Spain",emoji:"🌊",g:["#0f6b5c","#3a9a6e"],dur:"6 days / 5 nights",ruta:"Cudillero → Llanes → Santillana del Mar → Comillas",air:"Asturias or Santander airport",
+ dests:[
+ {n:"Cudillero",e:"🏘️",g:["#d9531e","#f0a030"],t:"Colorful houses stacked in an amphitheater above a fishing harbor. Fresh seafood and golden sunsets.",tg:["Harbor","Seafood","Photogenic"]},
+ {n:"Llanes",e:"🏖️",g:["#14708f","#4aa3c7"],t:"Beaches, cliffs and cider. The perfect base for Ribadesella and the Picos de Europa.",tg:["Beaches","Cider","Picos de Europa"]},
+ {n:"Santillana del Mar",e:"🏰",g:["#7a5230","#b98b55"],t:"A peaceful medieval stone village, minutes from the famous Altamira Caves.",tg:["Medieval","Altamira","Peaceful"]},
+ {n:"Comillas",e:"🎨",g:["#6a3d8f","#a56cc4"],t:"Modernism on the coast: Gaudí’s El Capricho, Sobrellano Palace and a lovely beach.",tg:["Gaudí","Modernism","Beach"]}],
+ plan:[["Days 1–2","Cudillero","Harbor, seafood and a stroll up to the viewpoint."],["Days 3–4","Llanes","Beaches and a day trip to Ribadesella or the Picos de Europa. About 2 h from Cudillero."],["Day 5","Santillana del Mar","Medieval old town and Altamira (book tickets ahead). About 1 h 40 min from Llanes."],["Day 6","Comillas","El Capricho, Sobrellano and San Vicente de la Barquera. About 20 min from Santillana."]],
+ pr:[["Hisparia Air flight",150],["Hotels with breakfast",275],["Shared rental car and fuel",145],["Admission tickets",30]],rng:"€550–700",nota:"In the north, a car is almost essential."},
+{id:"andalusia",tab:"Classic Andalusia",emoji:"☀️",g:["#b5371f","#e8892c"],dur:"5 days / 4 nights",ruta:"Frigiliana + Nerja → Granada → Ronda",air:"Málaga airport (arrival and departure)",
+ dests:[
+ {n:"Frigiliana & Nerja",e:"🌿",g:["#2a7fb5","#7fc4e0"],t:"A whitewashed village with flower-lined streets, minutes from the beach, plus the Nerja Caves.",tg:["White village","Beach","Caves"]},
+ {n:"Granada",e:"🕌",g:["#a8341f","#d9714a"],t:"The Alhambra, the Albaicín quarter with its views, and free tapas with every drink.",tg:["Alhambra","Albaicín","Tapas"]},
+ {n:"Ronda",e:"🌉",g:["#5b6b3a","#9aa86a"],t:"The Puente Nuevo bridge over the Tajo gorge, local wineries and mountain scenery.",tg:["Puente Nuevo","Wineries","Mountains"]}],
+ plan:[["Days 1–2","Frigiliana & Nerja","White village, beach and the Nerja Caves."],["Day 3","Granada","Alhambra and Albaicín. About 1 h 30 min from Frigiliana."],["Days 4–5","Ronda","Puente Nuevo and wineries. About 2 h 45 min from Granada."]],
+ pr:[["Hisparia Air flight",120],["Hotels with breakfast",220],["Shared rental car and fuel",100],["Admission tickets",40]],rng:"€430–550",nota:"Book the Alhambra well in advance."},
+{id:"costabrava",tab:"Costa Brava & Girona",emoji:"🎭",g:["#1f5f99","#5aa7d6"],dur:"5 days / 4 nights",ruta:"Cadaqués → Girona → Besalú",air:"Girona or Barcelona airport",
+ dests:[
+ {n:"Cadaqués",e:"⛵",g:["#1b6e9b","#6cc0e0"],t:"A whitewashed seaside village with the light that inspired Dalí. Dalí house-museum in Portlligat and hidden coves.",tg:["Dalí","Coves","Seaside"]},
+ {n:"Girona",e:"🏛️",g:["#c4572b","#eba253"],t:"A Jewish quarter, colorful houses along the Onyar River and an impressive cathedral.",tg:["Jewish quarter","Onyar River","Cathedral"]},
+ {n:"Besalú",e:"🌁",g:["#6d5a45","#b59a78"],t:"A medieval bridge and a beautifully preserved historic center.",tg:["Medieval","Bridge","History"]}],
+ plan:[["Days 1–2","Cadaqués","Dalí house-museum in Portlligat and coves."],["Day 3","Girona","Jewish quarter and the Onyar River. About 1 h 15 min from Cadaqués."],["Day 4","Besalú","Medieval bridge and old town. Under 1 h from Girona."]],
+ pr:[["Hisparia Air flight",130],["Hotels with breakfast",260],["Shared rental car and fuel",100],["Admission tickets",35]],rng:"€480–600",nota:"Cadaqués is the priciest stop for accommodation."}
+];
+let cur=0,n=1,season=0;
+const f=x=>"€"+x.toLocaleString("en-US");
+function tabs(){document.getElementById("tabs").innerHTML=P.map((p,i)=>`<button role="tab" aria-selected="${i==cur}" onclick="cur=${i};render()">${p.emoji} ${p.tab}</button>`).join("")}
+function render(){
+ const p=P[cur],k=season?1.3:1;
+ const rows=p.pr.map(r=>`<tr><td>${r[0]}</td><td>${f(Math.round(r[1]*(r[0].startsWith("Hotels")?k:1)*n))}</td></tr>`).join("");
+ const tot=Math.round(p.pr.reduce((a,r)=>a+r[1]*(r[0].startsWith("Hotels")?k:1),0)*n);
+ document.getElementById("main").innerHTML=`
+ <section class="banner" style="background:linear-gradient(135deg,${p.g[0]},${p.g[1]})"><div class="big">${p.emoji}</div><h2>${p.tab}</h2><div class="meta">${p.dur}<br>${p.ruta}<br>✈️ ${p.air}</div></section>
+ <h3 class="sec">Destinations</h3>
+ <div class="dests">${p.dests.map(d=>`<div class="card"><div class="ph" style="background:linear-gradient(135deg,${d.g[0]},${d.g[1]})">${d.n}<span>${d.e}</span></div><div class="b"><p>${d.t}</p><div class="tags">${d.tg.map(t=>`<i>${t}</i>`).join("")}</div></div></div>`).join("")}</div>
+ <h3 class="sec">Itinerary</h3>
+ <ul class="days">${p.plan.map(d=>`<li><b>${d[0]} · ${d[1]}</b><small>${d[2]}</small></li>`).join("")}</ul>
+ <h3 class="sec">Prices</h3>
+ <div class="price">
+  <div class="ctrl">Travelers:${[1,2,3,4].map(v=>`<button class="${v==n?"on":""}" onclick="n=${v};render()">${v}</button>`).join("")}
+  &nbsp;Season:<button class="${!season?"on":""}" onclick="season=0;render()">Low</button><button class="${season?"on":""}" onclick="season=1;render()">High</button></div>
+  <table>${rows}<tr class="tot"><td>Total (${n} ${n>1?"travelers":"traveler"})</td><td>${f(tot)}</td></tr></table>
+  <div class="note">Typical range per person: ${p.rng}. High season: hotels about 30% higher. ${p.nota}</div>
+  <a class="cta" href="#book" onclick="return false">Book with Hisparia Air</a>
+ </div>`;
+ tabs();
+}
+render();
+</script>
+</body>
+</html>
